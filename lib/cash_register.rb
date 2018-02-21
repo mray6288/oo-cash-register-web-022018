@@ -3,17 +3,19 @@ require 'pry'
 
 class CashRegister
 
-	attr_reader :discount, :all_items
+	attr_reader :discount, :all_items, :last_transaction
 
 	def initialize(discount=0)
 		@total = 0
 		@discount = discount
 		@all_items = []
+		@last_transaction = nil
 	end
 
 	def add_item(title, price, quantity=1)
 		self.total += price * quantity
 		quantity.times  {self.all_items << title}
+		@last_transaction = price
 	end
 
 	def apply_discount
@@ -39,7 +41,7 @@ class CashRegister
 	end
 
 	def void_last_transaction
-		self.total = 0.0
+		self.total -= self.last_transaction
 	end
 
 end
